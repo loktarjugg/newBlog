@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 
 use App\Models\Article;
+use App\Models\Reply;
 use App\Models\Tag;
 use App\Services\EmojiParser;
 use App\Traits\BaseRepository;
@@ -96,5 +97,14 @@ class ArticleRepository
             errorLog($exception , '修改文章');
             return false;
         }
+    }
+
+    public function replies($id)
+    {
+        $this->model = new Reply();
+
+        $this->model = $this->model->where('article_id' , $id );
+
+        return $this->paginate();
     }
 }

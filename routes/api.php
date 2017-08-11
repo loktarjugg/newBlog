@@ -17,11 +17,14 @@ Route::group([
     'prefix' =>'v1',
     'namespace' => 'Api\V1',
 ],function () {
+    Route::post('login' , 'LoginController@login');
     Route::post('upload','UploadController@upload')
         ->middleware(['auth:api','admin'])->name('upload');
+    Route::get('articles/{id}/replies' , 'ArticleController@replies');
     Route::resource('articles', 'ArticleController'); //articles
     Route::resource('tags','TagController'); //tags
     Route::resource('shares','ShareController');
     Route::get('settings','SetController@index');
     Route::put('settings','SetController@update')->middleware(['auth:api','admin']);
+    Route::resource('replies','ReplyController');
 });

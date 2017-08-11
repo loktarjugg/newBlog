@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->is_admin;
     }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class , 'user_id' , 'id');
+    }
 }

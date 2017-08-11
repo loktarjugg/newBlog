@@ -4,22 +4,37 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Repositories\ArticleRepository;
 use App\Transformers\ArticleTransformer;
+use App\Transformers\ReplyTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class ArticleController
+ * @package App\Http\Controllers\Api\V1
+ */
 class ArticleController extends ApiController
 {
+    /**
+     * @var ArticleRepository
+     */
     protected $articleRepository;
 
+    /**
+     * ArticleController constructor.
+     * @param ArticleRepository $articleRepository
+     */
     public function __construct(ArticleRepository $articleRepository)
     {
-        $this->middleware(['auth:api','admin'])->except('index','show');
+        $this->middleware(['auth:api','admin'])->except('index','show','replies');
 
         $this->middleware(['cors'])->only('index','show');
 
         $this->articleRepository = $articleRepository;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $articles = $this->articleRepository->search();
@@ -27,6 +42,10 @@ class ArticleController extends ApiController
         return $this->respond($articles , new ArticleTransformer);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         $article = $this->articleRepository->find($id);
@@ -36,6 +55,10 @@ class ArticleController extends ApiController
         return $this->respond($article , new ArticleTransformer );
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $request->request->set('user_id' , Auth::id());
@@ -49,6 +72,11 @@ class ArticleController extends ApiController
         return $this->respond($article , new ArticleTransformer );
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request , $id)
     {
         $article = $this->articleRepository->update($request->all() , $id);
@@ -60,6 +88,10 @@ class ArticleController extends ApiController
         return $this->respond($article , new ArticleTransformer );
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         if (! $this->articleRepository->destroy($id)){
@@ -67,5 +99,16 @@ class ArticleController extends ApiController
         }
 
         return $this->noContent();
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function replies($id)
+    {
+        $replies = $this->articleRepository->replies($id);
+
+        return $this->respond($replies , new ReplyTransformer );
     }
 }

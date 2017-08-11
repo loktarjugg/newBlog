@@ -57,5 +57,9 @@ class Article extends Model
         return $query->where('status', 1);
     }
 
+    public function replies()
+    {
+        return $this->hasMany(Reply::class , 'article_id');
+    }
 
 }

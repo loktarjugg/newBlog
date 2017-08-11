@@ -9,6 +9,11 @@ class SetController extends ApiController
 {
     const CACHE_KEY = 'settings';
 
+    public function __construct()
+    {
+        $this->middleware(['cors'])->only(['index']);
+    }
+
     public function index()
     {
        if (! Cache::has(self::CACHE_KEY)){

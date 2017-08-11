@@ -21,6 +21,13 @@
             <i class="iconfont">&#xe646;</i>标签列表
         </el-menu-item>
 
+        <el-menu-item index="/admin/shares">
+            <i class="iconfont">&#xe6d4;</i>分享列表
+        </el-menu-item>
+
+        <el-menu-item index="/admin/settings">
+            <i class="iconfont">&#xe63b;</i>基础设置
+        </el-menu-item>
 
     </el-menu>
 

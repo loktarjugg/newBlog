@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="tag">
         <multiselect
                 tag-placeholder="创建新的标签"
                 placeholder="搜索或添加标签"

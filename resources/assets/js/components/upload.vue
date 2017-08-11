@@ -25,7 +25,7 @@
         data(){
             return {
                 headers : {
-                    'X-CSRF-TOKEN' : window.csrf_token ,
+                    'X-CSRF-TOKEN' : window.axios.defaults.headers.common["X-CSRF-TOKEN"] ,
                     'X-Requested-With' : 'XMLHttpRequest'
                 },
                 files:[],

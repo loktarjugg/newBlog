@@ -12,7 +12,10 @@ export default {
     SET_TAGS : (state , tags ) => {
         state.tags = tags;
     },
-    SET_TAG_GROUPS : (state , tag_groups ) => {
-        state.tag_groups = tag_groups;
+    SET_SHARES : (state , shares ) => {
+        state.shares = shares;
+    },
+    SET_SETTINGS : (state , settings ) => {
+        state.settings = settings;
     },
 }

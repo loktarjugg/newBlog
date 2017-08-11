@@ -22,4 +22,6 @@ Route::group([
     Route::resource('articles', 'ArticleController'); //articles
     Route::resource('tags','TagController'); //tags
     Route::resource('shares','ShareController');
+    Route::get('settings','SetController@index');
+    Route::put('settings','SetController@update')->middleware(['auth:api','admin']);
 });

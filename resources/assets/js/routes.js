@@ -44,6 +44,28 @@ export default [
                 ],
             },
             {
+                path : 'shares',
+                component : Parent,
+                children : [
+                    {
+                        path : '/',
+                        component : require('./views/shares/index.vue'),
+                        name : 'shares'
+                    },
+                ],
+            },
+            {
+                path : 'settings',
+                component : Parent ,
+                children : [
+                    {
+                        path : '/',
+                        component : require('./views/settings/index.vue'),
+                        name : 'settings'
+                    },
+                ],
+            },
+            {
                 path: '*',
                 redirect: '/admin'
             }

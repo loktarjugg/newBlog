@@ -108,7 +108,7 @@
                         label : '文章'
                     },
                     {
-                        name : 'share',
+                        name : 'shares',
                         label : '分享'
                     },
                 ]
@@ -171,7 +171,7 @@
                         }).catch(error => {
                         this.$message({
                             type: 'error',
-                            message: '置顶失败'
+                            message: '删除失败'
                         });
                     });
                 }).catch(() => {

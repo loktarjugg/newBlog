@@ -57,7 +57,7 @@
                         align="center"
                         width="120">
                     <template scope="scope">
-                        <a :href="scope.row.source_link" v-if="scope.row.source_link"><i class="iconfont">&#xe643;</i></a>
+                        <a :href="scope.row.source_link" target="_blank" v-if="scope.row.source_link"><i class="iconfont">&#xe643;</i></a>
                     </template>
                 </el-table-column>
 
@@ -129,6 +129,17 @@
                     </template>
                 </el-table-column>
 
+                <el-table-column label="标签" width="150">
+                    <template scope="scope">
+                        <el-tag
+                                v-if="scope.row.tags"
+                                v-for="tag in scope.row.tags"
+                                :key="tag.id"
+                                type="primary"
+                                close-transition>{{ tag.name }}</el-tag>
+                    </template>
+                </el-table-column>
+
                 <el-table-column width="150px"
                                  label="操作"
                                  prop="id"
@@ -162,7 +173,8 @@
         data() {
             return {
                 params : {
-                    page : 1
+                    page : 1,
+                    include:'tags'
                 }
             }
         },

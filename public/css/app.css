@@ -526,6 +526,13 @@ a {
   color: #5e6d82 !important;
 }
 
+blockquote {
+  color: #e01919;
+  border-left: 2px solid #ccc;
+  padding: 10px;
+  background: #f7f7f7;
+}
+
 #content {
   margin: 30px;
 }
@@ -873,5 +880,9 @@ a {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+
+.el-tag {
+  margin-right: 1.5px;
 }
 

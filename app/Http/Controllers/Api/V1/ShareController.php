@@ -25,4 +25,34 @@ class ShareController extends ApiController
 
         return $this->respond($shares , new ShareTransformer );
     }
+
+    public function store(Request $request)
+    {
+        $share = $this->shareRepository->store($request->all());
+
+        if (! $share){
+            return $this->errorRespond();
+        }
+
+        return $this->respond($share , new ShareTransformer );
+    }
+
+    public function update(Request $request , $id)
+    {
+        $share = $this->shareRepository->update($request->all() , $id);
+
+        if (! $share){
+            return $this->errorRespond();
+        }
+
+        return $this->respond($share , new ShareTransformer );
+    }
+
+    public function destroy($id)
+    {
+        if (! $this->shareRepository->destroy($id)){
+            return $this->errorRespond();
+        }
+        return $this->noContent();
+    }
 }

@@ -184,13 +184,21 @@
                     };
 
                     if (data.tags){
-                        let type;
+                        var type;
                         this.form.tags = data.tags.map(function (tag) {
                             type = tag.type;
                             return {name : tag.name};
                         });
                         this.form.type = type;
                     }
+
+                    if (data.cover_link.length > 1){
+                        this.files = [{
+                            name: data.cover_link,
+                            url : data.cover_link
+                        }];
+                    }
+
 
                 })
             },

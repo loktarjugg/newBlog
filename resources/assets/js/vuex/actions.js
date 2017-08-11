@@ -1,8 +1,11 @@
-/**
- * Created by apple on 2017/8/3.
- */
 
 export default {
+    /**
+     * get articles
+     * @param commit
+     * @param params
+     * @returns {Promise.<TResult>|*}
+     */
     getArticles: ({commit} , params )=>{
         return window.axios.get('articles',{
             params: params || {
@@ -14,6 +17,12 @@ export default {
         });
     },
 
+    /**
+     * get tags
+     * @param commit
+     * @param params
+     * @returns {Promise.<TResult>|*}
+     */
     getTags: ({commit} , params )=>{
         return window.axios.get('tags',{
             params: params || {
@@ -23,13 +32,30 @@ export default {
             commit('SET_TAGS' , response.data);
         });
     },
-    getTagGroups: ({commit} , params )=>{
-        return window.axios.get('tag-groups',{
+
+    /**
+     * get shares
+     * @param commit
+     * @param params
+     * @returns {Promise.<TResult>|*}
+     */
+    getShares: ({commit} , params )=>{
+        return window.axios.get('shares',{
             params: params || {
                 page : 1
             }
         }).then(response =>{
-            commit('SET_TAG_GROUPS' , response.data);
+            commit('SET_SHARES' , response.data);
+        });
+    },
+    /**
+     * get settings
+     * @param commit
+     * @returns {Promise.<TResult>|*}
+     */
+    getSettings: ({commit})=>{
+        return window.axios.get('settings').then(response =>{
+            commit('SET_SETTINGS' , response.data);
         });
     },
 }

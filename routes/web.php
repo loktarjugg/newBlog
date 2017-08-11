@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect()->to('/admin');
-});
+Route::get('/','HomeController@index');
 
 Route::get('/login','Auth\LoginController@showLoginForm')->name('admin_login_form');
 Route::post('/login','Auth\LoginController@login')->name('admin_login');

@@ -18,7 +18,7 @@ class ReplyController extends ApiController
     {
         $this->middleware(['auth:api'])->only(['store','update','destroy']);
 
-        $this->middleware(['cors']);
+        $this->middleware('cors');
 
         $this->replyRepository = $replyRepository;
 

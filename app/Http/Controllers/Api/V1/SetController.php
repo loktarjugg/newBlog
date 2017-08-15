@@ -11,7 +11,8 @@ class SetController extends ApiController
 
     public function __construct()
     {
-        $this->middleware(['cors'])->only(['index']);
+        $this->middleware('cors')->only(['index']);
+        $this->middleware(['auth:api','admin'])->except('index');
     }
 
     public function index()

@@ -14,7 +14,7 @@ class ShareController extends ApiController
     {
         $this->middleware(['auth:api','admin'])->except('index','show');
 
-        $this->middleware(['cors'])->only('index','show');
+        $this->middleware('cors')->only(['index','show']);
 
         $this->shareRepository = $shareRepository;
     }

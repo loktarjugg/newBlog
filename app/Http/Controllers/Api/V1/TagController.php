@@ -17,7 +17,7 @@ class TagController extends ApiController
         $this->tagRepository = $tagRepository;
 
         $this->middleware(['auth:api','admin'])->except('index','show');
-        $this->middleware(['cors'])->only(['index','show']);
+        $this->middleware('cors')->only(['index','show']);
     }
 
     public function index()

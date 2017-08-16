@@ -19,8 +19,8 @@ class ArticleTransformer extends TransformerAbstract
      */
     public function transform(Article $article)
     {
-        $prev_slug = $this->getSlug($article ,'<') ?: null;
-        $next_slug = $this->getSlug($article,'>')?:null;
+        $prev_slug = $this->getId($article ,'<') ?: null;
+        $next_slug = $this->getId($article,'>')?:null;
 
         return [
             'id' => $article->id,
@@ -58,7 +58,7 @@ class ArticleTransformer extends TransformerAbstract
         return !$user ? $this->null() : $this->item($user , new UserTransformer , false );
     }
 
-    protected function getSlug( Article $article  , $m = '>')
+    protected function getId( Article $article  , $m = '>')
     {
         $articleModel = new Article();
 
@@ -68,7 +68,7 @@ class ArticleTransformer extends TransformerAbstract
 
         return $articleModel->where('id' , $m , $article->id)
             ->orderBy('id' , $m == '<' ? 'desc' : 'asc')
-            ->pluck('slug')->first();
+            ->pluck('id')->first();
 
     }
 }

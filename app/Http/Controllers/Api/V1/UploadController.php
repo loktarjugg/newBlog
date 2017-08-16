@@ -32,4 +32,22 @@ class UploadController extends ApiController
             'path' => $fileName
         ]);
     }
+
+    /**
+     * 获取七牛上传token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function token()
+    {
+        $token = Storage::disk('qiniu')->getAdapter()
+            ->getUploadToken();
+
+        if (! $token){
+            return $this->errorRespond();
+        }
+
+        return $this->jsonRespond([
+            'token' => $token
+        ]);
+    }
 }

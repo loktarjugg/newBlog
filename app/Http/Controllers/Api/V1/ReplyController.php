@@ -33,7 +33,7 @@ class ReplyController extends ApiController
     {
         $data = $request->all();
 
-        $data['body'] = EmojiParser::parse($data['body']);
+        $data['body'] = EmojiParser::parse($data['body']);//避免emoji引起的保存错误
 
         $data['body_original'] = $data['body'];
 

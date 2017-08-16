@@ -28,7 +28,6 @@ trait VoteTrait
     {
         $items = (array) $this->checkVoteItem($item);
 
-
         return $this->votedItems()->sync($items , false );
     }
 

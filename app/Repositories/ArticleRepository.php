@@ -12,25 +12,46 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class ArticleRepository
+ * @package App\Repositories
+ */
 class ArticleRepository
 {
     use BaseRepository;
 
+    /**
+     * @var Article
+     */
     protected $model;
 
+    /**
+     * @var array
+     */
     protected $searchField;
 
+    /**
+     * @var array
+     */
     protected $relationship = [
         'tags' => 'tags',
         'user' => 'user',
     ]; //支持预加载的关联关系 实现在BaseRepository下的covertInclude方法里
 
+    /**
+     * ArticleRepository constructor.
+     * @param Article $article
+     */
     public function __construct(Article $article)
     {
         $this->model = $article;
         $this->searchField = $article->searchField;
     }
 
+
+    /**
+     * @return mixed
+     */
     public function search()
     {
         if (Auth::check() && Auth::user()->is_admin){
@@ -49,6 +70,10 @@ class ArticleRepository
         return $this->paginate(10,'is_top');
     }
 
+    /**
+     * @param array $data
+     * @return bool|mixed
+     */
     public function store(array $data)
     {
         try{
@@ -60,6 +85,7 @@ class ArticleRepository
             $article = $this->save($this->model , $data);
 
             if (isset($data['tags']) && !empty($data['tags'])){
+                //Tag使用的是spatie/laravel-tags这个包
                 $article->syncTagsWithType(array_flatten($data['tags']) , $data['type']);
             }
 
@@ -73,12 +99,17 @@ class ArticleRepository
         }
     }
 
+    /**
+     * @param array $data
+     * @param $id
+     * @return bool|mixed
+     */
     public function update(array $data , $id)
     {
         try{
             DB::beginTransaction();
 
-            $data['body_original'] = EmojiParser::parse($data['body']);
+            $data['body_original'] = EmojiParser::parse($data['body']);//避免emoji引起的sql保存错误
 
             $data['body'] = Markdown::convertToHtml($data['body_original']);
 
@@ -99,6 +130,10 @@ class ArticleRepository
         }
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function replies($id)
     {
         $this->model = new Reply();

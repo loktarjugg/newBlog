@@ -9,7 +9,7 @@ use Spatie\Tags\HasTags;
 
 class Article extends Model
 {
-    use SoftDeletes , CanVoteTrait,HasTags;
+    use SoftDeletes , CanVoteTrait,HasTags,CanVoteTrait;
 
     protected $casts = [
         'status' => 'boolean',

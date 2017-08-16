@@ -18,9 +18,11 @@ Route::group([
     'namespace' => 'Api\V1',
 ],function () {
     Route::post('login' , 'LoginController@login');
+    Route::post('register' , 'RegisterController@register');
     Route::post('upload','UploadController@upload')
         ->middleware(['auth:api','admin'])->name('upload');
     Route::get('articles/{id}/replies' , 'ArticleController@replies');
+    Route::post('articles/{id}/vote' , 'ArticleController@vote')->middleware(['auth:api']);
     Route::resource('articles', 'ArticleController'); //articles
     Route::resource('tags','TagController'); //tags
     Route::resource('shares','ShareController');

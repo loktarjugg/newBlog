@@ -25,7 +25,7 @@ class ArticleController extends ApiController
      */
     public function __construct(ArticleRepository $articleRepository)
     {
-        $this->middleware(['auth:api','admin'])->except('index','show','replies');
+        $this->middleware(['auth:api','admin'])->except('index','show','replies','vote');
 
         $this->middleware('cors')->only(['index','show','replies']);
 
@@ -102,6 +102,7 @@ class ArticleController extends ApiController
     }
 
     /**
+     * 获取指定文章的评论
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -110,5 +111,29 @@ class ArticleController extends ApiController
         $replies = $this->articleRepository->replies($id);
 
         return $this->respond($replies , new ReplyTransformer );
+    }
+
+    /**
+     * 点赞
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vote($id)
+    {
+        $reply = $this->articleRepository->find($id);
+
+        if (Auth::user()->hasVoted($reply)){
+            if (! Auth::user()->cancelVote($reply)){
+                return $this->errorRespond();
+            }
+
+            return $this->noContent();
+        }
+
+        if (! Auth::user()->upVote($reply)){
+            return $this->errorRespond();
+        }
+
+        return $this->noContent();
     }
 }

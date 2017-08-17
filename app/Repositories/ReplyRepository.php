@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Reply;
 use App\Traits\BaseRepository;
 use Exception;
@@ -27,10 +26,10 @@ class ReplyRepository
 
     public function destroy($id)
     {
-        if (Auth::user()->is_admin){
+        if (Auth::user()->is_admin) {
             $reply = $this->find($id);
-        }else{
-            $reply = $this->model->where('customer_id' , Auth::id())
+        } else {
+            $reply = $this->model->where('customer_id', Auth::id())
                 ->findOrFail($id);
         }
 

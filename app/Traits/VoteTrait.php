@@ -28,7 +28,7 @@ trait VoteTrait
     {
         $items = (array) $this->checkVoteItem($item);
 
-        return $this->votedItems()->sync($items , false );
+        return $this->votedItems()->sync($items, false);
     }
 
     /**
@@ -64,18 +64,20 @@ trait VoteTrait
      * @param null $class
      * @return mixed
      */
-    public function votedItems($class = null )
+    public function votedItems($class = null)
     {
         if (!empty($class)) {
             $this->setVoteRelation($class);
         }
 
-        return $this->morphedByMany( $this->voteRelation ,
+        return $this->morphedByMany(
+            $this->voteRelation,
             'votable',
             'votes',
             'user_id',
-            'votable_id')
-            ->withTimestamps('created_at','updated_at');
+            'votable_id'
+        )
+            ->withTimestamps('created_at', 'updated_at');
     }
 
     /**
@@ -102,6 +104,4 @@ trait VoteTrait
     {
         return $this->voteRelation = $class;
     }
-
-
 }

@@ -1,5 +1,6 @@
 <?php
 namespace App\Traits;
+
 /**
  * Class BaseRepository
  * @package App\Traits
@@ -15,8 +16,8 @@ trait BaseRepository
     {
         $params = \Request::all();
         //关系映射
-        if (isset($params['include'])){
-            $this->convertInclude( $params['include']);
+        if (isset($params['include'])) {
+            $this->convertInclude($params['include']);
         }
 
         return $this->model->findOrFail($id);
@@ -39,29 +40,29 @@ trait BaseRepository
      * @param string $sort 排序方式 desc asc
      * @return mixed
      */
-    public function paginate($count = 10 , $sortColumn = 'id' , $sort ='desc')
+    public function paginate($count = 10, $sortColumn = 'id', $sort ='desc')
     {
         $params = \Request::all();
 
         $fields = isset($this->searchField) ? $this->searchField :[];
         //字段映射
-        if (count($fields) > 0 ){
-            foreach ($params as $param => $value ) {
-                if (array_has($fields , $param )){
-                    $this->model = $this->model->where( array_get( $fields , $param ) , $value);
+        if (count($fields) > 0) {
+            foreach ($params as $param => $value) {
+                if (array_has($fields, $param)) {
+                    $this->model = $this->model->where(array_get($fields, $param), $value);
                 }
             }
         }
 
         //关系映射
-        if (isset($params['include'])){
+        if (isset($params['include'])) {
             $this->convertInclude($params['include']);
         }
 
-        return $this->basePaginate($sortColumn , $sort , $count );
+        return $this->basePaginate($sortColumn, $sort, $count);
     }
 
-    public function basePaginate($sortColumn = 'id' , $sort ='desc' , $count = 10)
+    public function basePaginate($sortColumn = 'id', $sort ='desc', $count = 10)
     {
         $count = \Request::has('count') ? \Request::get('count') : $count;
 
@@ -72,16 +73,16 @@ trait BaseRepository
         $sortColumn = \Request::has('sortBy') ? \Request::get('sortBy') : $sortColumn;
 
         return $this->model
-            ->orderBy($sortColumn , $sort)
+            ->orderBy($sortColumn, $sort)
             ->paginate($count)
             ->appends($queryParams);
     }
 
-    public function update(array $data , $id)
+    public function update(array $data, $id)
     {
         $model = $this->find($id);
 
-        return $this->save($model , $data );
+        return $this->save($model, $data);
     }
 
     public function destroy($id)
@@ -98,7 +99,7 @@ trait BaseRepository
      */
     public function store($data)
     {
-        return $this->save($this->model , $data);
+        return $this->save($this->model, $data);
     }
 
     /**
@@ -106,7 +107,7 @@ trait BaseRepository
      * @param $data
      * @return mixed
      */
-    public function save($model , $data)
+    public function save($model, $data)
     {
         $model->fill($data);
 
@@ -121,22 +122,23 @@ trait BaseRepository
         return $this;
     }
 
-    protected function convertInclude($includeData ) {
+    protected function convertInclude($includeData)
+    {
         $relationships = isset($this->relationship) ? $this->relationship : [];
 
-        $includes = explode(',', $includeData );
+        $includes = explode(',', $includeData);
 
         $withed = collect([]);
 
-        if (count($relationships) > 0 ){
+        if (count($relationships) > 0) {
             foreach ($includes as $include) {
-                if (array_has($relationships , $include)){
-                    $withed->push(array_get($relationships , $include ));
+                if (array_has($relationships, $include)) {
+                    $withed->push(array_get($relationships, $include));
                 }
             }
         }
 
-        if (! $withed->isEmpty()){
+        if (! $withed->isEmpty()) {
             $this->model = $this->model->with($withed->toArray());
         }
     }

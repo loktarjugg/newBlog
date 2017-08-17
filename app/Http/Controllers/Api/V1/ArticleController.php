@@ -25,7 +25,7 @@ class ArticleController extends ApiController
      */
     public function __construct(ArticleRepository $articleRepository)
     {
-        $this->middleware(['auth:api','admin'])->except('index','show','replies','vote');
+        $this->middleware(['auth:api','admin'])->except('index', 'show', 'replies', 'vote');
 
         $this->middleware('cors')->only(['index','show','replies','vote']);
 
@@ -39,7 +39,7 @@ class ArticleController extends ApiController
     {
         $articles = $this->articleRepository->search();
 
-        return $this->respond($articles , new ArticleTransformer);
+        return $this->respond($articles, new ArticleTransformer);
     }
 
     /**
@@ -52,7 +52,7 @@ class ArticleController extends ApiController
 
         $article->increment('view_count');
 
-        return $this->respond($article , new ArticleTransformer );
+        return $this->respond($article, new ArticleTransformer);
     }
 
     /**
@@ -61,15 +61,15 @@ class ArticleController extends ApiController
      */
     public function store(Request $request)
     {
-        $request->request->set('user_id' , Auth::id());
+        $request->request->set('user_id', Auth::id());
 
         $article = $this->articleRepository->store($request->all());
 
-        if (! $article){
+        if (! $article) {
             return $this->errorRespond();
         }
 
-        return $this->respond($article , new ArticleTransformer );
+        return $this->respond($article, new ArticleTransformer);
     }
 
     /**
@@ -77,15 +77,15 @@ class ArticleController extends ApiController
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
-        $article = $this->articleRepository->update($request->all() , $id);
+        $article = $this->articleRepository->update($request->all(), $id);
 
-        if (! $article){
+        if (! $article) {
             return $this->errorRespond();
         }
 
-        return $this->respond($article , new ArticleTransformer );
+        return $this->respond($article, new ArticleTransformer);
     }
 
     /**
@@ -94,7 +94,7 @@ class ArticleController extends ApiController
      */
     public function destroy($id)
     {
-        if (! $this->articleRepository->destroy($id)){
+        if (! $this->articleRepository->destroy($id)) {
             return $this->errorRespond();
         }
 
@@ -110,7 +110,7 @@ class ArticleController extends ApiController
     {
         $replies = $this->articleRepository->replies($id);
 
-        return $this->respond($replies , new ReplyTransformer );
+        return $this->respond($replies, new ReplyTransformer);
     }
 
     /**
@@ -122,15 +122,15 @@ class ArticleController extends ApiController
     {
         $reply = $this->articleRepository->find($id);
 
-        if (Auth::user()->hasVoted($reply)){
-            if (! Auth::user()->cancelVote($reply)){
+        if (Auth::user()->hasVoted($reply)) {
+            if (! Auth::user()->cancelVote($reply)) {
                 return $this->errorRespond();
             }
 
             return $this->noContent();
         }
 
-        if (! Auth::user()->upVote($reply)){
+        if (! Auth::user()->upVote($reply)) {
             return $this->errorRespond();
         }
 

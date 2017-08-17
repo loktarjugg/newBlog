@@ -16,7 +16,7 @@ class TagController extends ApiController
     {
         $this->tagRepository = $tagRepository;
 
-        $this->middleware(['auth:api','admin'])->except('index','show');
+        $this->middleware(['auth:api','admin'])->except('index', 'show');
         $this->middleware('cors')->only(['index','show']);
     }
 
@@ -24,26 +24,25 @@ class TagController extends ApiController
     {
         $tags = $this->tagRepository->search();
 
-        return $this->respond($tags , new TagTransformer );
+        return $this->respond($tags, new TagTransformer);
     }
 
     public function store(Request $request)
     {
-
         $tag = $this->tagRepository->store($request->all());
 
-        if (! $tag){
+        if (! $tag) {
             return $this->errorRespond();
         }
 
         return $this->noContent();
     }
 
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
-        $tag = $this->tagRepository->update($request->all() , $id );
+        $tag = $this->tagRepository->update($request->all(), $id);
 
-        if (! $tag){
+        if (! $tag) {
             return $this->errorRespond();
         }
 
@@ -54,11 +53,11 @@ class TagController extends ApiController
     {
         $tag = $this->tagRepository->find($id);
 
-        if (DB::table('taggables')->where('tag_id' , $id)->first()){
+        if (DB::table('taggables')->where('tag_id', $id)->first()) {
             return $this->errorRespond('此标签存在关联，无法删除');
         }
 
-        if (! $tag->delete() ){
+        if (! $tag->delete()) {
             return $this->errorRespond();
         }
 

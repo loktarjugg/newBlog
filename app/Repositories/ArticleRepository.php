@@ -1,7 +1,6 @@
 <?php
 namespace App\Repositories;
 
-
 use App\Models\Article;
 use App\Models\Reply;
 use App\Models\Tag;
@@ -24,6 +23,7 @@ class ArticleRepository
      * @var Article
      */
     protected $model;
+
 
     /**
      * @var array
@@ -54,7 +54,7 @@ class ArticleRepository
      */
     public function search()
     {
-        if (Auth::check() && Auth::user()->is_admin){
+        if (Auth::check() && Auth::user()->is_admin) {
             return $this->paginate();
         }
 
@@ -62,12 +62,12 @@ class ArticleRepository
 
         $type = \Request::get('type') ?: 'articles';
 
-        if (\Request::has('tags')){
-            $tags = explode(',' , \Request::get('tags'));
-            $this->model = $this->model->withAnyTags($tags , $type);
+        if (\Request::has('tags')) {
+            $tags = explode(',', \Request::get('tags'));
+            $this->model = $this->model->withAnyTags($tags, $type);
         }
 
-        return $this->paginate(10,'is_top');
+        return $this->paginate(10, 'is_top');
     }
 
     /**
@@ -76,25 +76,24 @@ class ArticleRepository
      */
     public function store(array $data)
     {
-        try{
+        try {
             DB::beginTransaction();
             $data['body_original'] = EmojiParser::parse($data['body']);
 
             $data['body'] = Markdown::convertToHtml($data['body_original']);
 
-            $article = $this->save($this->model , $data);
+            $article = $this->save($this->model, $data);
 
-            if (isset($data['tags']) && !empty($data['tags'])){
+            if (isset($data['tags']) && !empty($data['tags'])) {
                 //Tag使用的是spatie/laravel-tags这个包
-                $article->syncTagsWithType(array_flatten($data['tags']) , $data['type']);
+                $article->syncTagsWithType(array_flatten($data['tags']), $data['type']);
             }
 
             DB::commit();
             return $article;
-
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
-            errorLog($exception , '新增文章');
+            errorLog($exception, '新增文章');
             return false;
         }
     }
@@ -104,28 +103,27 @@ class ArticleRepository
      * @param $id
      * @return bool|mixed
      */
-    public function update(array $data , $id)
+    public function update(array $data, $id)
     {
-        try{
+        try {
             DB::beginTransaction();
 
             $data['body_original'] = EmojiParser::parse($data['body']);//避免emoji引起的sql保存错误
 
             $data['body'] = Markdown::convertToHtml($data['body_original']);
 
-            $article = $this->save($this->find($id) , $data);
+            $article = $this->save($this->find($id), $data);
 
-            if (isset($data['tags']) && !empty($data['tags'])){
-                $article->syncTagsWithType(array_flatten($data['tags']) , $data['type']);
+            if (isset($data['tags']) && !empty($data['tags'])) {
+                $article->syncTagsWithType(array_flatten($data['tags']), $data['type']);
             }
 
             DB::commit();
 
             return $article;
-
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
-            errorLog($exception , '修改文章');
+            errorLog($exception, '修改文章');
             return false;
         }
     }
@@ -138,7 +136,7 @@ class ArticleRepository
     {
         $this->model = new Reply();
 
-        $this->model = $this->model->where('article_id' , $id );
+        $this->model = $this->model->where('article_id', $id);
 
         return $this->paginate();
     }

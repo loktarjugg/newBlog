@@ -12,7 +12,6 @@ class ApiController extends Controller
 
     public function __construct()
     {
-
     }
 
     public function getStatusCode()
@@ -28,17 +27,17 @@ class ApiController extends Controller
     }
 
 
-    public function respond($data , $callback , array $meta = [] , $statusCode = 200 , $headers = [])
+    public function respond($data, $callback, array $meta = [], $statusCode = 200, $headers = [])
     {
         $manager = fractal($data, $callback)
             ->serializeWith(new DataArraySerializer)
             ->addMeta($meta);
 
-        if ( \Request::has('include')){
+        if (\Request::has('include')) {
             $manager->parseIncludes(\Request::get('include'));
         }
 
-        return $manager->respond($statusCode , $headers);
+        return $manager->respond($statusCode, $headers);
     }
 
 
@@ -48,7 +47,7 @@ class ApiController extends Controller
             ->jsonRespond([]);
     }
 
-    public function errorRespond($message = '操作失败' , $errorCode = 400)
+    public function errorRespond($message = '操作失败', $errorCode = 400)
     {
         return $this->setStatusCode($errorCode)
             ->jsonRespond([
@@ -56,10 +55,8 @@ class ApiController extends Controller
             ]);
     }
 
-    public function jsonRespond(array $data , array $headers = [] )
+    public function jsonRespond(array $data, array $headers = [])
     {
-        return new JsonResponse($data , $this->statusCode ,  $headers );
+        return new JsonResponse($data, $this->statusCode, $headers);
     }
-
-
 }

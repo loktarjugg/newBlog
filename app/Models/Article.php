@@ -49,7 +49,7 @@ class Article extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class ,'id','user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function scopeCommon($query)
@@ -59,7 +59,6 @@ class Article extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class , 'article_id');
+        return $this->hasMany(Reply::class, 'article_id');
     }
-
 }

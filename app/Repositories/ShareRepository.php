@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Share;
 use App\Traits\BaseRepository;
 use Illuminate\Support\Facades\Auth;
@@ -31,13 +30,13 @@ class ShareRepository
 
     public function search()
     {
-        if (Auth::check() && Auth::user()->is_admin){
+        if (Auth::check() && Auth::user()->is_admin) {
             return $this->paginate();
         }
 
-        if (\Request::has('tags')){
-            $tags = explode(',' , \Request::get('tags'));
-            $this->model = $this->model->withAnyTags($tags , 'shares');
+        if (\Request::has('tags')) {
+            $tags = explode(',', \Request::get('tags'));
+            $this->model = $this->model->withAnyTags($tags, 'shares');
         }
 
         return $this->paginate();
@@ -45,38 +44,38 @@ class ShareRepository
 
     public function store(array $data)
     {
-        try{
+        try {
             DB::beginTransaction();
-                $share = $this->save($this->model , $data);
+            $share = $this->save($this->model, $data);
 
-            if (isset($data['tags']) && !empty($data['tags'])){
-                $share->syncTagsWithType(array_flatten($data['tags']) , 'shares');
+            if (isset($data['tags']) && !empty($data['tags'])) {
+                $share->syncTagsWithType(array_flatten($data['tags']), 'shares');
             }
 
             DB::commit();
             return $share;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
-            errorLog($exception , '新增分享报错');
+            errorLog($exception, '新增分享报错');
             return false;
         }
     }
 
-    public function update(array $data , $id)
+    public function update(array $data, $id)
     {
-        try{
+        try {
             DB::beginTransaction();
-            $share = $this->save( $this->find($id) , $data);
+            $share = $this->save($this->find($id), $data);
 
-            if (isset($data['tags']) && !empty($data['tags'])){
-                $share->syncTagsWithType(array_flatten($data['tags']) , 'shares');
+            if (isset($data['tags']) && !empty($data['tags'])) {
+                $share->syncTagsWithType(array_flatten($data['tags']), 'shares');
             }
 
             DB::commit();
             return $share;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
-            errorLog($exception,'更新分享报错');
+            errorLog($exception, '更新分享报错');
 
             return false;
         }

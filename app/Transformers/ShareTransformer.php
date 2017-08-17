@@ -30,6 +30,6 @@ class ShareTransformer extends TransformerAbstract
     {
         $tags = $share->tags;
 
-        return $tags ? $this->collection($tags , new TagTransformer , false ) :$this->null();
+        return $tags ? $this->collection($tags, new TagTransformer, false) :$this->null();
     }
 }

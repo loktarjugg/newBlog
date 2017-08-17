@@ -8,14 +8,13 @@
 
 namespace App\Observers;
 
-
 use App\Models\Tag;
 
 class TagObserver
 {
     public function saving(Tag $tag)
     {
-//        if (empty($tag->slug)){
+        //        if (empty($tag->slug)){
 //            $tag->slug = translug($tag->name);
 //        }
     }

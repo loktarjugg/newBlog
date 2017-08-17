@@ -17,25 +17,25 @@ class SetController extends ApiController
 
     public function index()
     {
-       if (! Cache::has(self::CACHE_KEY)){
-           $this->initCache();
-       }
+        if (! Cache::has(self::CACHE_KEY)) {
+            $this->initCache();
+        }
 
-       $config = Cache::get(self::CACHE_KEY);
+        $config = Cache::get(self::CACHE_KEY);
 
         return $this->jsonRespond($config);
     }
 
     public function update(Request $request)
     {
-        return $this->initCache($request->except('_token','_url'));
+        return $this->initCache($request->except('_token', '_url'));
     }
 
     protected function initCache($config = null)
     {
         $config = $config?:config('personal.config');
 
-        Cache::forever(self::CACHE_KEY , $config);
+        Cache::forever(self::CACHE_KEY, $config);
 
         return Cache::get(self::CACHE_KEY);
     }

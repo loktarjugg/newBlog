@@ -8,7 +8,6 @@
 
 namespace App\Traits;
 
-
 use App\Models\User;
 
 trait CanVoteTrait
@@ -43,9 +42,12 @@ trait CanVoteTrait
      */
     public function voters()
     {
-        return $this->morphToMany( User::class ,
+        return $this->morphToMany(
+            User::class,
             'votable',
-            'votes' ,
-            'votable_id' , 'user_id');
+            'votes',
+            'votable_id',
+            'user_id'
+        );
     }
 }

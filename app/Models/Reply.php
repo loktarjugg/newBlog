@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-
     protected $fillable = [
         'user_id',
         'article_id',
@@ -23,6 +22,6 @@ class Reply extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class , 'id' , 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

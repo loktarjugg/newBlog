@@ -10,20 +10,19 @@ class UploadController extends ApiController
 {
     public function __construct()
     {
-
     }
 
     public function upload(Request $request)
     {
-        if (! $request->hasFile('files')){
+        if (! $request->hasFile('files')) {
             return $this->errorRespond('上传的文件名必须是files');
         }
 
         $file = $request->file('files');
 
-        $fileName = Storage::put( '' , $file); //自动命名
+        $fileName = Storage::put('', $file); //自动命名
 
-        if (! Storage::exists($fileName)){
+        if (! Storage::exists($fileName)) {
             return $this->errorRespond('上传失败');
         }
 
@@ -42,7 +41,7 @@ class UploadController extends ApiController
         $token = Storage::disk('qiniu')->getAdapter()
             ->getUploadToken();
 
-        if (! $token){
+        if (! $token) {
             return $this->errorRespond();
         }
 

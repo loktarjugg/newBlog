@@ -13,7 +13,7 @@ class LoginController extends ApiController
 {
     protected function validator(array $data)
     {
-        return Validator::make($data,[
+        return Validator::make($data, [
             'email' => 'required',
             'password' =>'required'
         ]);
@@ -23,7 +23,7 @@ class LoginController extends ApiController
     {
         $validator = $this->validator($request->all());
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'error' => '验证没有通过',
                 'data' => $validator->errors()->toArray()
@@ -39,9 +39,8 @@ class LoginController extends ApiController
             'scope' => '*'
         ]);
 
-        $proxy = Request::create( '/oauth/token' , 'POST');
+        $proxy = Request::create('/oauth/token', 'POST');
 
         return Route::dispatch($proxy);
-
     }
 }

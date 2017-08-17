@@ -26,7 +26,7 @@ class RegisterController extends ApiController
 
         event(new Registered($user = $this->create($request->all())));
 
-        if (! $user){
+        if (! $user) {
             return $this->errorRespond();
         }
 
@@ -39,7 +39,7 @@ class RegisterController extends ApiController
             'scope' => '*'
         ]);
 
-        $proxy = Request::create( '/oauth/token' , 'POST');
+        $proxy = Request::create('/oauth/token', 'POST');
 
         return Route::dispatch($proxy);
     }
@@ -59,10 +59,9 @@ class RegisterController extends ApiController
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ],[
+        ], [
             'name.unique' => '该用户名已存在',
             'email.unique' => '该邮箱已存在',
         ]);
     }
-
 }

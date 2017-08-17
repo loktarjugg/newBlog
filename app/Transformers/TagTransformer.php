@@ -23,5 +23,4 @@ class TagTransformer extends TransformerAbstract
             'order_column' => $tag->order_column,
         ];
     }
-
 }

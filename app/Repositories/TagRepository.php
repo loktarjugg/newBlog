@@ -1,7 +1,6 @@
 <?php
 namespace App\Repositories;
 
-
 use App\Models\Tag;
 use App\Traits\BaseRepository;
 use Illuminate\Support\Facades\DB;
@@ -30,30 +29,27 @@ class TagRepository
 
     public function store(array $data)
     {
-        try{
-
+        try {
             SpatieTag::create([
                 'name' => $data['name'],
                 'type' => $data['type']
             ]);
 
             return true;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return false;
         }
     }
 
-    public function update(array $data , $id)
+    public function update(array $data, $id)
     {
         $tag = SpatieTag::findOrFail($id);
 
-        try{
+        try {
             $tag->fill($data)->save();
             return true;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return false;
         }
-
     }
-
 }

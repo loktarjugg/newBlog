@@ -5,5 +5,4 @@ use Exception;
 
 class ErrorException extends Exception
 {
-
 }

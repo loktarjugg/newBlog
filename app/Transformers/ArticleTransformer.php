@@ -19,8 +19,8 @@ class ArticleTransformer extends TransformerAbstract
      */
     public function transform(Article $article)
     {
-        $prev_slug = $this->getId($article ,'<') ?: null;
-        $next_slug = $this->getId($article,'>')?:null;
+        $prev_slug = $this->getId($article, '<') ?: null;
+        $next_slug = $this->getId($article, '>')?:null;
 
         return [
             'id' => $article->id,
@@ -29,8 +29,8 @@ class ArticleTransformer extends TransformerAbstract
             'slug' => (string) $article->slug,
             'cover_link' => (string) $article->cover_link,
             'desc' => (string) $article->desc,
-            'body' => (string) EmojiParser::parse($article->body , 'DECODE'),
-            'body_original' => (string) EmojiParser::parse($article->body_original , 'DECODE'),
+            'body' => (string) EmojiParser::parse($article->body, 'DECODE'),
+            'body_original' => (string) EmojiParser::parse($article->body_original, 'DECODE'),
             'source_link' => (string) $article->source_link,
             'vote_count' => (int) $article->vote_count,
             'view_count' => (int) $article->view_count,
@@ -48,27 +48,26 @@ class ArticleTransformer extends TransformerAbstract
     {
         $tags = $article->tags;
 
-        return !$tags? $this->null() : $this->collection($tags , new TagTransformer ,false);
+        return !$tags? $this->null() : $this->collection($tags, new TagTransformer, false);
     }
 
     public function includeUser(Article $article)
     {
         $user = $article->user;
 
-        return !$user ? $this->null() : $this->item($user , new UserTransformer , false );
+        return !$user ? $this->null() : $this->item($user, new UserTransformer, false);
     }
 
-    protected function getId( Article $article  , $m = '>')
+    protected function getId(Article $article, $m = '>')
     {
         $articleModel = new Article();
 
         $articleModel = $articleModel->withAnyTags($article->tags
             ->pluck('name')->
-            collapse()->values()->toArray() , $article->type);
+            collapse()->values()->toArray(), $article->type);
 
-        return $articleModel->where('id' , $m , $article->id)
-            ->orderBy('id' , $m == '<' ? 'desc' : 'asc')
+        return $articleModel->where('id', $m, $article->id)
+            ->orderBy('id', $m == '<' ? 'desc' : 'asc')
             ->pluck('id')->first();
-
     }
 }

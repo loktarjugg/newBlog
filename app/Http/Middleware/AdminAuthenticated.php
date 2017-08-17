@@ -17,12 +17,11 @@ class AdminAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guest() || ! Auth::user()->is_admin() ) {
-
-            if ($request->expectsJson()){
+        if (Auth::guest() || ! Auth::user()->is_admin()) {
+            if ($request->expectsJson()) {
                 return new JsonResponse([
                     'error' => 'You do not have permission to access.'
-                ],401);
+                ], 401);
             }
 
             return redirect()->guest(route('admin_login'));

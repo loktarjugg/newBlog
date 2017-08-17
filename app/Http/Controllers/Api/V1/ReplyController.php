@@ -21,12 +21,10 @@ class ReplyController extends ApiController
         $this->middleware('cors');
 
         $this->replyRepository = $replyRepository;
-
     }
 
     public function index()
     {
-
     }
 
     public function store(ReplyRequest $request)
@@ -38,20 +36,21 @@ class ReplyController extends ApiController
         $data['body_original'] = $data['body'];
 
         $reply = Auth::user()->replies()
-            ->create($data);;
+            ->create($data);
+        ;
 
-        if (! $reply){
+        if (! $reply) {
             return $this->errorRespond();
         }
 
-        return $this->respond($reply , new ReplyTransformer );
+        return $this->respond($reply, new ReplyTransformer);
     }
 
     public function destroy($id)
     {
         $deleted = $this->replyRepository->destroy($id);
 
-        if (! $deleted){
+        if (! $deleted) {
             return $this->errorRespond();
         }
 

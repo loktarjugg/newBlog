@@ -12,7 +12,7 @@ class ShareController extends ApiController
 
     public function __construct(ShareRepository $shareRepository)
     {
-        $this->middleware(['auth:api','admin'])->except('index','show');
+        $this->middleware(['auth:api','admin'])->except('index', 'show');
 
         $this->middleware('cors')->only(['index','show']);
 
@@ -23,34 +23,34 @@ class ShareController extends ApiController
     {
         $shares = $this->shareRepository->search();
 
-        return $this->respond($shares , new ShareTransformer );
+        return $this->respond($shares, new ShareTransformer);
     }
 
     public function store(Request $request)
     {
         $share = $this->shareRepository->store($request->all());
 
-        if (! $share){
+        if (! $share) {
             return $this->errorRespond();
         }
 
-        return $this->respond($share , new ShareTransformer );
+        return $this->respond($share, new ShareTransformer);
     }
 
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
-        $share = $this->shareRepository->update($request->all() , $id);
+        $share = $this->shareRepository->update($request->all(), $id);
 
-        if (! $share){
+        if (! $share) {
             return $this->errorRespond();
         }
 
-        return $this->respond($share , new ShareTransformer );
+        return $this->respond($share, new ShareTransformer);
     }
 
     public function destroy($id)
     {
-        if (! $this->shareRepository->destroy($id)){
+        if (! $this->shareRepository->destroy($id)) {
             return $this->errorRespond();
         }
         return $this->noContent();

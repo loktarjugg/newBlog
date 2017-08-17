@@ -1,7 +1,6 @@
 <?php
 namespace App\Services;
 
-
 use League\Fractal\Pagination\PaginatorInterface;
 use Spatie\Fractalistic\ArraySerializer;
 

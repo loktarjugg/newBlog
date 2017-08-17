@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\User;
 use App\Traits\BaseRepository;
 
@@ -22,5 +21,4 @@ class UserRepository
     {
         $this->model = $user;
     }
-
 }

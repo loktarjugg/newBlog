@@ -32,6 +32,6 @@ class ReplyTransformer extends TransformerAbstract
     {
         $user = $reply->user;
 
-        return $user ? $this->item($user , new UserTransformer , false ) : $this->null();
+        return $user ? $this->item($user, new UserTransformer, false) : $this->null();
     }
 }

@@ -17,11 +17,11 @@ Route::group([
     'prefix' =>'v1',
     'namespace' => 'Api\V1',
 ],function () {
-    Route::post('login' , 'LoginController@login')->name('api.login');
-    Route::post('register' , 'RegisterController@register')->name('api.register');
+    Route::post('login' , 'LoginController@login')->middleware('cors')->name('api.login');
+    Route::post('register' , 'RegisterController@register')->middleware('cors')->name('api.register');
     Route::post('upload','UploadController@upload')
         ->middleware(['auth:api','admin'])->name('upload');
-    Route::get('token/qiniu','UploadController@token')->name('qiniu.token');
+    Route::get('token/qiniu','UploadController@token')->middleware('cors')->name('qiniu.token');
     Route::get('articles/{id}/replies' , 'ArticleController@replies')->name('articles.replies');
     Route::post('articles/{id}/vote' , 'ArticleController@vote')->middleware(['auth:api']);
     Route::resource('articles', 'ArticleController'); //articles

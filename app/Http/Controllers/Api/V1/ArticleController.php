@@ -27,7 +27,7 @@ class ArticleController extends ApiController
     {
         $this->middleware(['auth:api','admin'])->except('index','show','replies','vote');
 
-        $this->middleware('cors')->only(['index','show','replies']);
+        $this->middleware('cors')->only(['index','show','replies','vote']);
 
         $this->articleRepository = $articleRepository;
     }

@@ -19,7 +19,8 @@ class ArticleObserver
         }
 
         if (empty($article->slug)) {
-            $article->slug = translug($article->title);
+//            $article->slug = translug($article->title);
+            $article->slug = $article->title;
         }
     }
 }

@@ -3428,7 +3428,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         actionUrl: {
             type: String,
-            default: '/upload'
+            default: '/api/v1/upload'
         }
     },
     mounted: function mounted() {
@@ -3463,10 +3463,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             inlineAttachment.editors.codemirror4.attach(this.simplemde.codemirror, {
                 uploadUrl: this.actionUrl,
-                uploadFieldName: 'file',
+                uploadFieldName: 'files',
                 extraParams: {
+                    'attachment': 1
+                },
+                extraHeaders: {
                     'X-CSRF-TOKEN': window.csrf_token,
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
                 }
             });
         }

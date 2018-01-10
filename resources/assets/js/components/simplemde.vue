@@ -20,7 +20,7 @@
             },
             actionUrl : {
                 type :String,
-                default : '/upload'
+                default : '/api/v1/upload'
             },
         },
         mounted() {
@@ -53,11 +53,15 @@
 
                 inlineAttachment.editors.codemirror4.attach(this.simplemde.codemirror, {
                     uploadUrl: this.actionUrl,
-                    uploadFieldName:'file',
+                    uploadFieldName:'files',
                     extraParams:{
-                        'X-CSRF-TOKEN' : window.csrf_token,
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'attachment' : 1
                     },
+                    extraHeaders:{
+                        'X-CSRF-TOKEN' : window.csrf_token,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept' : 'application/json',
+                    }
                 });
             },
         }

@@ -26,6 +26,12 @@ class UploadController extends ApiController
             return $this->errorRespond('上传失败');
         }
 
+        if ($request->has('attachment')){
+            return $this->jsonRespond([
+                'filename' => qiniu_path($fileName),
+            ]);
+        }
+
         return $this->jsonRespond([
             'full_path' => qiniu_path($fileName),
             'path' => $fileName

@@ -15,6 +15,7 @@ class Article extends Model
         'status' => 'boolean',
         'is_top' => 'boolean',
         'enable_reply' => 'boolean',
+        'published_at' => 'timestamp'
     ];
 
     protected $fillable = [
